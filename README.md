@@ -5,8 +5,310 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucio AI | PromptLayer Integration Report</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        /* Lucio AI Theme - Refined */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --text-secondary: #4a5568;
+            --accent-green-bg: #e6f4ea;
+            --accent-green-text: #064e3b;
+            --button-dark: #1a202c;
+            --button-light: #f3f4f6;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --section-bg: #f9fafb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            color: var(--text-color);
+            letter-spacing: -0.01em;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #000;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--bg-color);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        header.scrolled {
+            border-color: var(--border-color);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+            padding-left: 0.5rem;
+            border-left: 1px solid var(--border-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        nav a:hover {
+            color: var(--text-color);
+        }
+
+        .btn-primary {
+            background-color: var(--button-dark);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 5rem;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, #f7fafc 0%, #ffffff 70%);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--accent-green-bg);
+            color: var(--accent-green-text);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background-color: var(--button-light);
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-bg {
+            background-color: var(--section-bg);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        /* Mermaid */
+        .mermaid {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -111,8 +413,7 @@
                     <div>
                         <h4>A. Centralized Storage</h4>
                         <p>All prompts live in one searchable registry. Organize by tags (<code>legal</code>,
-                            <code>engineering</code>) or metadata.
-                        </p>
+                            <code>engineering</code>) or metadata.</p>
                     </div>
                     <div>
                         <h4>B. Version Control</h4>
@@ -227,15 +528,13 @@
                     </p>
                     <ol style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
                         <li style="margin-bottom: 0.5rem;"><strong>Fetch:</strong> Plugin queries PromptLayer for active
-                            <code>word-plugin</code> prompts.
-                        </li>
+                            <code>word-plugin</code> prompts.</li>
                         <li style="margin-bottom: 0.5rem;"><strong>Cache:</strong> Prompts cached locally for speed and
                             offline capability.</li>
                         <li style="margin-bottom: 0.5rem;"><strong>Execute:</strong> Plugin sends text to LLM via
                             PromptLayer proxy.</li>
                         <li><strong>Track:</strong> Request logged with metadata (<code>user_id</code>,
-                            <code>plugin_version</code>).
-                        </li>
+                            <code>plugin_version</code>).</li>
                     </ol>
                 </div>
 
@@ -248,8 +547,7 @@
                     <div class="card">
                         <h3>C. Centralized Dashboard</h3>
                         <p>A web portal for the Admin to manage versions, promote from <code>dev</code> to
-                            <code>prod</code>, and view cost analytics per client.
-                        </p>
+                            <code>prod</code>, and view cost analytics per client.</p>
                     </div>
                 </div>
 
